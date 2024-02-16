@@ -1,6 +1,6 @@
 package com.example.employeeaddress.controller;
 
-import com.example.employeeaddress.address.Address;
+import com.example.employeeaddress.addressmodel.Address;
 import com.example.employeeaddress.service.AddressService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ class AddressControllerTest {
         Address address = new Address("NewYork", "11111");
         Address address1 = new Address("Chicago", "22222");
         List<Address> addressList = Arrays.asList(address, address1);
-        Mockito.when(addressService.getAllEmployeAddress()).thenReturn(addressList);
+        Mockito.when(addressService.getAllData()).thenReturn(addressList);
         mockMvc.perform(MockMvcRequestBuilders.get("/Address/All"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].city", Matchers.is("NewYork")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].zipcode", Matchers.is("11111")))
@@ -50,7 +50,7 @@ class AddressControllerTest {
     @Test
     void getById() throws Exception {
         Address address = new Address("NewYork", "11111");
-        Mockito.when(addressService.getByIdAddress(address.getId())).thenReturn(Optional.of(address));
+        Mockito.when(addressService.getById(address.getId())).thenReturn(Optional.of(address));
         mockMvc.perform(MockMvcRequestBuilders.get("/Address/{id}",address.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
